@@ -37,14 +37,15 @@ def gerar_pdf(cliente, produtos_selecionados, desconto, prazo_validade, forma_pa
     pdf = FPDF()
     pdf.add_page()
 
-    # Adiciona a logo no topo esquerdo
+    # ✅ Logo da empresa (ajuste o nome se necessário)
     pdf.image("logo.png", x=10, y=8, w=50)
 
     pdf.set_font("Arial", 'B', 16)
-    pdf.ln(20)  # espaço depois da logo
+    pdf.ln(20)
     pdf.cell(0, 10, "Orçamento - CM Casa da Madeira", ln=1, align="C")
     pdf.ln(10)
 
+    # ✅ Dados do cliente
     pdf.set_font("Arial", size=12)
     pdf.cell(0, 10, f"Cliente: {cliente['Nome']}", ln=1)
     pdf.cell(0, 10, f"Telefone: {cliente['Telefone']}", ln=1)
@@ -52,26 +53,34 @@ def gerar_pdf(cliente, produtos_selecionados, desconto, prazo_validade, forma_pa
     pdf.cell(0, 10, f"Endereço: {cliente['Endereço']}", ln=1)
     pdf.ln(10)
 
-    pdf.set_font("Arial", 'B', 14)
-    pdf.cell(40, 10, "Produto", border=1)
-    pdf.cell(30, 10, "Qtd", border=1)
-    pdf.cell(40, 10, "Preço unit.", border=1)
-    pdf.cell(40, 10, "Total", border=1)
+    # ✅ Tabela de produtos
+    pdf.set_font("Arial", 'B', 11)
+    pdf.cell(70, 8, "Produto", border=1)
+    pdf.cell(20, 8, "Qtd", border=1)
+    pdf.cell(40, 8, "Preço unit.", border=1)
+    pdf.cell(40, 8, "Total", border=1)
     pdf.ln()
 
+    pdf.set_font("Arial", size=10)
     total_geral = 0
+
     for idx, row in produtos_selecionados.iterrows():
         total = row['Quantidade'] * row['Preço']
         total_geral += total
-        pdf.cell(40, 10, str(row['Produto']), border=1)
-        pdf.cell(30, 10, str(row['Quantidade']), border=1)
-        pdf.cell(40, 10, f"R$ {row['Preço']:.2f}", border=1)
-        pdf.cell(40, 10, f"R$ {total:.2f}", border=1)
+        nome_produto = str(row['Produto'])[:30]  # corta nome longo
+
+        pdf.cell(70, 8, nome_produto, border=1)
+        pdf.cell(20, 8, str(row['Quantidade']), border=1)
+        pdf.cell(40, 8, f"R$ {row['Preço']:.2f}", border=1)
+        pdf.cell(40, 8, f"R$ {total:.2f}", border=1)
         pdf.ln()
 
+    # ✅ Totais e informações finais
     pdf.ln(5)
     valor_desconto = total_geral * desconto / 100
     valor_final = total_geral - valor_desconto
+
+    pdf.set_font("Arial", size=12)
     pdf.cell(0, 10, f"Desconto: {desconto:.2f}% - R$ {valor_desconto:.2f}", ln=1)
     pdf.cell(0, 10, f"Total com desconto: R$ {valor_final:.2f}", ln=1)
     pdf.ln(10)
@@ -79,7 +88,9 @@ def gerar_pdf(cliente, produtos_selecionados, desconto, prazo_validade, forma_pa
     pdf.cell(0, 10, f"Prazo de validade: {prazo_validade}", ln=1)
     pdf.cell(0, 10, f"Forma de pagamento: {forma_pagamento}", ln=1)
 
+    # ✅ Retorna PDF em bytes para download
     return pdf.output(dest='S').encode('latin1')
+
 
 # Interface principal
 def main():
