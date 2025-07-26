@@ -39,7 +39,7 @@ if menu == "Cadastrar Cliente":
         else:
             df = pd.DataFrame(columns=dados.keys())
 
-        df = df.concat(dados, ignore_index=True)
+        df = pd.concat(dados, ignore_index=True)
         df.to_csv(CLIENTES_CSV, index=False)
         st.success("✅ Cliente salvo com sucesso!")
 
@@ -63,7 +63,7 @@ elif menu == "Cadastrar Produto":
         else:
             df = pd.DataFrame(columns=dados.keys())
 
-        df = df.concat(dados, ignore_index=True)
+        df = pd.concat(dados, ignore_index=True)
         df.to_csv(PRODUTOS_CSV, index=False)
         st.success("✅ Produto salvo com sucesso!")
 
