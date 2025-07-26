@@ -36,7 +36,12 @@ def salvar_produto(dados):
 def gerar_pdf(cliente, produtos_selecionados, desconto, prazo_validade, forma_pagamento):
     pdf = FPDF()
     pdf.add_page()
+
+    # Adiciona a logo no topo esquerdo
+    pdf.image("logo.png", x=10, y=8, w=50)
+
     pdf.set_font("Arial", 'B', 16)
+    pdf.ln(20)  # espaço depois da logo
     pdf.cell(0, 10, "Orçamento - CM Casa da Madeira", ln=1, align="C")
     pdf.ln(10)
 
