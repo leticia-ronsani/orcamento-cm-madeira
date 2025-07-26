@@ -96,7 +96,9 @@ def gerar_pdf(cliente, produtos_selecionados, desconto, prazo_validade, forma_pa
 def main():
     st.title("📦 Sistema de Orçamentos - CM Casa da Madeira")
 
-    menu = st.sidebar.selectbox("Menu", ["Cadastrar Cliente", "Cadastrar Produto", "Fazer Orçamento"])
+   # Menu lateral
+menu = st.sidebar.radio("📂 Menu", ["Cadastrar Cliente", "Cadastrar Material", "Gerar Orçamento"])
+
 
     if menu == "Cadastrar Cliente":
         st.subheader("👤 Cadastro de Cliente")
