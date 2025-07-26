@@ -110,4 +110,4 @@ elif menu == "Gerar Orçamento":
             })
 
     if st.button("Gerar PDF"):
-        pdf =
+        pdf = FPDF()
